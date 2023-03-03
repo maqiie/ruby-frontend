@@ -15,7 +15,6 @@ function App() {
     <Router>
        <Routes>
        <Route path="/" element={<HomePage />} />
-       {/* <Route exact path="/" component={HomePage} /> */}
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/projects" component={ProjectsPage} /> 

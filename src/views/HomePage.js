@@ -12,8 +12,11 @@ class HomePage extends Component {
     signUpClick = (e) => {
         e.preventDefault();
         const { history } = this.props;
-        history.push('/signup');
+        if (history) {
+            history.push('/signup');
+        }
     }
+    
 
     componentDidMount() {
         if (localStorage.token) {
