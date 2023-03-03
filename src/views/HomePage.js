@@ -1,29 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../assets/logo.png';
 
 class HomePage extends Component {
-
-    logInClick = (e) => {
-        e.preventDefault();
-        const { history } = this.props;
-        history.push('/login');
-    }
-
-    signUpClick = (e) => {
-        e.preventDefault();
-        const { history } = this.props;
-        if (history) {
-            history.push('/signup');
-        }
-    }
-    
-
-    componentDidMount() {
-        if (localStorage.token) {
-            const { history } = this.props;
-            history.push('/projects');
-        }
-    }
 
     render() {
         return (
@@ -32,12 +11,12 @@ class HomePage extends Component {
                     <img className="mx-auto" id='home-logo' src={Logo} alt="Logo" />
                 </div>
                 <div className="flex justify-center mt-8 space-x-4">
-                    <button onClick={this.logInClick} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 border-b-4 border-gray-500 hover:border-gray-700 rounded">
+                    <Link to="/login" className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 border-b-4 border-gray-500 hover:border-gray-700 rounded">
                         Log in
-                    </button>
-                    <button onClick={this.signUpClick} className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 border-b-4 border-gray-500 hover:border-gray-700 rounded">
+                    </Link>
+                    <Link to="/signup" className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 border-b-4 border-gray-500 hover:border-gray-700 rounded">
                         Sign up
-                    </button>
+                    </Link>
                 </div>
             </div>
         )
@@ -45,3 +24,4 @@ class HomePage extends Component {
 }
 
 export default HomePage;
+
