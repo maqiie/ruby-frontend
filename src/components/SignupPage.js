@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import React from 'react';
+
+import { useState } from "react";
+import React from "react";
 
 function SignUp() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -15,10 +16,30 @@ function SignUp() {
     });
   };
 
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Send form data to backend server
+  
+    fetch('http://localhost:3001/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Redirect to success page
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Redirect to error page
+    });
   };
+  
+
 
   const handleSignIn = () => {
     // Redirect to login page
@@ -83,18 +104,22 @@ function SignUp() {
         </div>
         <div className="flex items-center justify-between">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  mr-4"
             type="submit"
           >
             Create Account
           </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={handleSignIn}
-          >
-            Sign in Instead
-          </button>
+
+          <div>
+            <a href="/login">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline "
+                type="button"
+              >
+                Sign in Instead
+              </button>
+            </a>
+          </div>
         </div>
       </form>
     </div>
