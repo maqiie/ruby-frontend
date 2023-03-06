@@ -16,30 +16,26 @@ function SignUp() {
     });
   };
 
-  
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    fetch('http://localhost:9292/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      // Redirect to success page
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // Redirect to error page
-    });
-  };
-  
 
+    fetch("http://localhost:3001/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        // Redirect to success page
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Redirect to error page
+      });
+  };
 
   const handleSignIn = () => {
     // Redirect to login page
