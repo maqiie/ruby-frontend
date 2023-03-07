@@ -17,15 +17,17 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Check if name and email fields are empty, set them to empty strings if they are
-    if (!formData.name) {
-      formData.name = "";
-    }
-    if (!formData.email) {
-      formData.email = "";
-    }
-
+  
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const passwordHash = document.getElementById("password").value;
+  
+    console.log('name:', name);
+    console.log('email:', email);
+  
+    const formData = { name, email, passwordHash };
+    console.log('formData:', formData);
+  
     fetch("http://localhost:9292/register", {
       method: "POST",
       headers: {
@@ -43,10 +45,9 @@ function SignUp() {
         // Redirect to error page
       });
   };
+  
 
-  const handleSignIn = () => {
-    // Redirect to login page
-  };
+ 
 
   return (
     <div className="flex justify-center items-center h-screen">
