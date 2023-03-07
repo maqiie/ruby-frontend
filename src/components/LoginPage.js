@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -31,6 +34,7 @@ const LoginPage = () => {
     // Handle the response from the server
     if (response.ok) {
       // Login was successful, so redirect to home page or do something else
+      navigate("/landing");
     } else {
       // Login failed, so display an error message
       const data = await response.json();
@@ -77,3 +81,5 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+

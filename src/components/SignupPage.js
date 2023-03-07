@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import React from "react";
 
@@ -18,6 +17,14 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Check if name and email fields are empty, set them to empty strings if they are
+    if (!formData.name) {
+      formData.name = "";
+    }
+    if (!formData.email) {
+      formData.email = "";
+    }
 
     fetch("http://localhost:9292/register", {
       method: "POST",
@@ -99,7 +106,7 @@ function SignUp() {
           />
         </div>
         <div className="flex items-center justify-between">
-          <button
+           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline  mr-4"
             type="submit"
           >
@@ -123,3 +130,4 @@ function SignUp() {
 }
 
 export default SignUp;
+          
