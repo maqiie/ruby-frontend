@@ -66,7 +66,7 @@ function ProjectsPage({ user }) {
   
 
   const handleUpdate = (id, updates) => {
-    fetch(`https://localhost:9292//project/update/status/${id}`, {
+    fetch(`http://localhost:9292/project/update/status/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -79,8 +79,10 @@ function ProjectsPage({ user }) {
         const newProjects = [...projects];
         newProjects[index] = data;
         setProjects(newProjects);
-      });
+      })
+      .catch((error) => console.error(error));
   };
+  
 
   return (
     <div className="bg-gray-100 p-4">
@@ -146,15 +148,17 @@ function ProjectsPage({ user }) {
           </div>
           <div>
           <button
-          className="bg-yellow-500 text-white p-2 rounded mr-2"
-          onClick={() => {
-          handleUpdate(project.id, {
-          completed: !project.completed,
-          });
-          }}
-          >
-          {project.completed ? "Mark as Not Completed" : "Mark as Completed"}
-          </button>
+  className={`bg-${project.completed ? 'green' : 'yellow'}-500 text-white p-2 rounded mr-2`}
+  onClick={() => {
+    handleUpdate(project.id, {
+      completed: !project.completed,
+    });
+  }}
+>
+  {project.completed ? "Completed" : "Mark as Completed"}
+</button>
+
+
           <button
           className="bg-red-500 text-white p-2 rounded"
           onClick={() => handleDelete(index, project.id)}

@@ -9,15 +9,27 @@ function Users() {
       .then((data) => setUsers(data));
   }, []);
 
-  const handleDeleteUser = (id) => {
-    fetch(`http://localhost:9292/users/${id}`, {
+
+const handleDeleteUser = (id) => {
+    fetch(`http://localhost:9292/destroy/${id}`, {
       method: 'DELETE'
     })
-      .then(() => {
-        const updatedUsers = users.filter((user) => user.id !== id);
-        setUsers(updatedUsers);
-      });
+      .then((response) => {
+        if (response.ok) {
+          const updatedUsers = users.filter((user) => user.id !== id);
+          setUsers(updatedUsers);
+         } else {
+        //   throw new Error('Failed to delete user');
+         }
+      })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     alert('An error occurred while deleting the user.');
+    //   });
   };
+  
+  
+  
 
   return (
     <div className="bg-gray-100 p-4">

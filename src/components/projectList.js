@@ -22,28 +22,34 @@ function ProjectList() {
   }, []);
 
   const handleCompleteProject = (id, completed) => {
-    fetch(`http://localhost:9292/projects/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ completed: completed }),
+    fetch(`http://localhost:9292/project/update/status/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed: completed })
     })
-      .then((response) => response.json())
-      .then((updatedProject) => {
-        const newProjects = projects.map((project) => {
-          if (project.id === updatedProject.id) {
-            return updatedProject;
+    .then(response => {
+      if (response.ok) {
+        // update projects in state
+        const updatedProjects = projects.map(project => {
+          if (project.id === id) {
+            return { ...project, completed: completed }
           }
-          return project;
-        });
-        setProjects(newProjects);
-      })
-      .catch((error) => {
-        console.error("Error updating project:", error);
-      });
-  };
+          return project
+        })
+        setProjects(updatedProjects)
+      } else {
+        throw new Error('Failed to update project status')
+      }
+    })
+    .catch(error => {
+      console.error(error)
+      alert('An error occurred while updating project status')
+    })
+  }
+  
 
   const handleDeleteProject = (id) => {
-    fetch(`http://localhost:9292/projects/${id}`, {
+    fetch(`http://localhost:9292/destroy/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -55,25 +61,35 @@ function ProjectList() {
       });
   };
 
+  const [selectedUserId, setSelectedUserId] = useState("");
+
   const handleAddUserToProject = (projectId, userId) => {
-    fetch(`http://localhost:9292/projects/${projectId}/add_user/${userId}`, {
-      method: "POST",
+    fetch(`http://localhost:9292/project/${projectId}/user?user_id=${userId}`, {
+      method: "POST"
     })
       .then((response) => response.json())
       .then((updatedProject) => {
-        const newProjects = projects.map((project) => {
-          if (project.id === updatedProject.id) {
-            return updatedProject;
-          }
-          return project;
-        });
-        setProjects(newProjects);
+        fetch(`http://localhost:9292/project/${projectId}`)
+          .then((response) => response.json())
+          .then((projectData) => {
+            const updatedProjects = projects.map((project) => {
+              if (project.id === updatedProject.id) {
+                return projectData;
+              }
+              return project;
+            });
+            setProjects(updatedProjects);
+            setSelectedUserId(""); // reset selected user ID
+          })
+          .catch((error) => {
+            console.error("Error fetching project data:", error);
+          });
       })
       .catch((error) => {
         console.error("Error adding user to project:", error);
       });
   };
-
+  
   return (
     <div className="bg-gray-100 p-4">
       <h2 className="text-xl font-bold mb-4">All Projects</h2>
@@ -111,21 +127,25 @@ function ProjectList() {
                 Delete
               </button>
               <select
-                value=""
-                onChange={(event) =>
-                  handleAddUserToProject(project.id, event.target.value)
-                }
-                className="border border-gray-400 rounded-md p-2"
-              >
-                <option disabled value="">
-                  Add user to project
-                </option>
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </select>
+  value={""}
+  onChange={(event) =>
+    handleAddUserToProject(project.id, event.target.value)
+  }
+  className="border border-gray-400 rounded-md p-2"
+>
+  <option disabled value="">
+    Add user to project
+  </option>
+  {users.map((user) => (
+    <option key={user.id} value={user.id} style={{ color: 'black' }}>
+      {user.name}
+    </option>
+  ))}
+</select>
+
+
+
+
             </div>
           </li>
         ))}
